@@ -1,9 +1,6 @@
-package scrapper;
+package scraper;
 
 import lombok.SneakyThrows;
-import scraper.DefaultScraper;
-import scraper.Home;
-import scraper.Scraper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class CacheScraper implements Scraper {
-    private Scraper scraper = new DefaultScraper();
+    private final Scraper scraper = new DefaultScraper();
 
     @Override @SneakyThrows
     public Home scrape(String url) {
@@ -28,9 +25,9 @@ public class CacheScraper implements Scraper {
                     rs.getDouble("baths"), rs.getDouble("garages") );
         } else {
             Home home = scraper.scrape(url);
-            String insert = String.format("insert into homes(url, price, beds, baths, garage) :('%s', '%d', '%f', '%f', '%f')",
+            query = String.format("INSERT INTO homes (url, price, beds, baths, garages) VALUES ('%s', %d, %f, %f, %f);",
                     url, home.getPrice(), home.getBeds(), home.getBath(), home.getGarage());
-            statement.executeUpdate(insert);
+            statement.executeUpdate(query);
             return  home;
         }
     }

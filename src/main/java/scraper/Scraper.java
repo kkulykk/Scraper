@@ -1,5 +1,7 @@
 package scraper;
 
+import java.sql.SQLException;
+
 public interface Scraper {
-    public Home scrape(String url);
+    Home scrape(String url) throws SQLException;
 }

@@ -3,7 +3,8 @@ package scraper;
 import lombok.SneakyThrows;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import scraper.Home;
+
+import java.util.Objects;
 
 
 public class DefaultScraper implements Scraper {
@@ -23,25 +24,23 @@ public class DefaultScraper implements Scraper {
     }
 
     private int getPrice(Document doc) {
-        String price = doc.selectFirst(PRICE_SELECTOR).text().replaceAll("[^0-9]","");
+        String price = Objects.requireNonNull(doc.selectFirst(PRICE_SELECTOR)).text().replaceAll("[^0-9]","");
         return Integer.parseInt(price);
     }
 
     private double getBeds(Document doc) {
-        String beds = doc.selectFirst(BEDS_SELECTOR).text().replaceAll("[^0-9.]", "");
+        String beds = Objects.requireNonNull(doc.selectFirst(BEDS_SELECTOR)).text().replaceAll("[^0-9.]", "");
         return Double.parseDouble(beds);
     }
 
     private double getBath(Document doc) {
-        String bath = doc.selectFirst(BATH_SELECTOR).text().replaceAll("[^0-9.]", "");
+        String bath = Objects.requireNonNull(doc.selectFirst(BATH_SELECTOR)).text().replaceAll("[^0-9.]", "");
         return Double.parseDouble(bath);
     }
 
     private double getGarage(Document doc) {
-        String garage = doc.selectFirst(GARAGE_SELECTOR).text().replaceAll("[^0-9.]", "");
+        String garage = Objects.requireNonNull(doc.selectFirst(GARAGE_SELECTOR)).text().replaceAll("[^0-9.]", "");
         return Double.parseDouble(garage);
     }
-
-
 
 }
